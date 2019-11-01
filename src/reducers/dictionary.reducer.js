@@ -2,6 +2,7 @@ import { SHOW_ALL } from '../actions/types/dictionary.action.type';
 
 const initialState = {
   test: 'Good !',
+  dictionaries: [],
 };
 
 const dictionaryReducer = (state = initialState, { type, payload }) => {

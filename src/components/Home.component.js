@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   Navbar,
   NavbarBrand,
@@ -8,11 +9,14 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Button,
 } from 'reactstrap';
 
 import Logo from '../assets/logo.png';
+import Dictionary from './Dictionary.component';
 
 const Home = () => {
+  const dictionaries = useSelector(state => state.dictionaryReducer.dictionaries);
   return (
     <div>
       <Navbar
@@ -30,6 +34,7 @@ const Home = () => {
             sm="4"
             style={{
               height: '100vh',
+              width: '100%',
               display: 'flex',
               alignItems: 'center',
             }}
@@ -41,11 +46,12 @@ const Home = () => {
               <NavItem>
                 <NavLink href="#">Link</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink href="#">Link</NavLink>
-              </NavItem>
+              <Button color="primary" size="lg" block>
+                + Add a dictionary
+              </Button>
             </Nav>
           </Col>
+
           <Col
             xs="12"
             sm="8"
@@ -56,7 +62,11 @@ const Home = () => {
               alignItems: 'center',
             }}
           >
-            coucou
+            {dictionaries.lenght ? (
+              dictionaries.map(dictionary => <Dictionary />)
+            ) : (
+              <p>No dictionary available</p>
+            )}
           </Col>
         </Row>
       </Container>
