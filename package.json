@@ -3,11 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^4.3.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-redux": "^7.1.1",
     "react-scripts": "3.2.0",
-    "redux": "^4.0.4"
+    "reactstrap": "^8.1.1",
+    "redux": "^4.0.4",
+    "styled-components": "^4.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -24,7 +27,8 @@
   "prettier": {
     "printWidth": 90,
     "bracketSpacing": true,
-    "trailingComma": "es5"
+    "trailingComma": "es5",
+    "singleQuote": true
   },
   "browserslist": {
     "production": [
