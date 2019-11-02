@@ -11,12 +11,15 @@ import {
   NavLink,
   Button,
 } from 'reactstrap';
+import { Switch, Route, useHistory } from 'react-router-dom';
 
 import Logo from '../assets/logo.png';
 import Dictionary from './Dictionary.component';
+import RowForm from './RowForm.component';
 
 const Home = () => {
-  const dictionaries = useSelector(state => state.dictionaryReducer.dictionaries);
+  const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
+  let history = useHistory();
   return (
     <div>
       <Navbar
@@ -31,7 +34,7 @@ const Home = () => {
         <Row>
           <Col
             xs="12"
-            sm="4"
+            sm="3"
             style={{
               height: '100vh',
               width: '100%',
@@ -41,12 +44,13 @@ const Home = () => {
           >
             <Nav vertical>
               <NavItem>
-                <NavLink href="#">Link</NavLink>
+                <NavLink href="#">All dictionaries</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink href="#">Link</NavLink>
-              </NavItem>
-              <Button color="primary" size="lg" block>
+              <Button
+                color="primary"
+                block
+                onClick={() => history.push('/addDictionary')}
+              >
                 + Add a dictionary
               </Button>
             </Nav>
@@ -54,19 +58,24 @@ const Home = () => {
 
           <Col
             xs="12"
-            sm="8"
+            sm="9"
             style={{
               height: '100vh',
               backgroundColor: '#fff',
-              display: 'flex',
-              alignItems: 'center',
             }}
           >
-            {dictionaries.lenght ? (
-              dictionaries.map(dictionary => <Dictionary />)
-            ) : (
-              <p>No dictionary available</p>
-            )}
+            <Switch>
+              <Route exact path="/">
+                {dictionaries.length ? (
+                  dictionaries.map(dictionary => <Dictionary />)
+                ) : (
+                  <p>No dictionary available</p>
+                )}
+              </Route>
+              <Route path="/addDictionary">
+                <RowForm />
+              </Route>
+            </Switch>
           </Col>
         </Row>
       </Container>

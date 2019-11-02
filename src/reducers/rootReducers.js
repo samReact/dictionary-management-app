@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import dictionaryReducer from './dictionary.reducer';
+import dictionariesReducer from './dictionaries.reducer';
+import rowsReducer from './rows.reducer';
 
 const rootReducer = combineReducers({
-  dictionaryReducer,
+  dictionariesReducer,
+  rowsReducer,
 });
 
 export default rootReducer;

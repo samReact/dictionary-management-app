@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import rootReducer from './reducers/rootReducers';
 import Home from './components/Home.component';
@@ -13,7 +14,9 @@ const store = createStore(
 function App() {
   return (
     <Provider store={store}>
-      <Home></Home>
+      <Router>
+        <Home />
+      </Router>
     </Provider>
   );
 }
