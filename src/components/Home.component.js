@@ -15,6 +15,7 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 import Logo from '../assets/logo.png';
 import RowForm from './RowForm.component';
 import DictionaryList from './DictionaryList.component';
+import Dictionary from './Dictionary.component';
 
 const Home = () => {
   const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
@@ -80,6 +81,9 @@ const Home = () => {
                 </Route>
                 <Route path="/addDictionary">
                   <RowForm />
+                </Route>
+                <Route path="/dictionary">
+                  <Dictionary />
                 </Route>
               </Switch>
             </div>

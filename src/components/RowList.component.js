@@ -15,10 +15,10 @@ const RowList = () => {
   return (
     <div>
       <Row>
-        <Col xs="6">
+        <Col xs="5">
           <h3>Domain</h3>
         </Col>
-        <Col xs="6">
+        <Col xs="5">
           <h3>Range</h3>
         </Col>
       </Row>

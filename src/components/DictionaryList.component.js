@@ -3,10 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button, Row, Col } from 'reactstrap';
 import { MdDeleteForever, MdEdit, MdRemoveRedEye } from 'react-icons/md';
 import { DELETE_DICTIONARY } from '../actions/types/dictionaries.action.type';
+import { useHistory } from 'react-router-dom';
 
 const DictionaryList = () => {
   const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
   const dispatch = useDispatch();
+  let history = useHistory();
   const handleRemove = id => {
     const payload = { id };
     dispatch({ payload, type: DELETE_DICTIONARY });
@@ -37,7 +39,12 @@ const DictionaryList = () => {
               </Button>
             </Col>
             <Col xs="1">
-              <Button onClick={() => handleRemove(dictionary.id)} outline>
+              <Button
+                onClick={() =>
+                  history.push({ pathname: '/dictionary', state: { dictionary } })
+                }
+                outline
+              >
                 <MdRemoveRedEye />
               </Button>
             </Col>
