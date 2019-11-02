@@ -4,16 +4,32 @@ import { MdAdd } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_ROW } from '../actions/types/rows.action.type';
 import RowList from './RowList.component';
+import { ADD_DICTIONARY } from '../actions/types/dictionaries.action.type';
+import { useHistory } from 'react-router-dom';
 
 const AddDictionaryForm = () => {
   const [domain, setDomain] = useState('');
   const [range, setRange] = useState('');
   const [name, setName] = useState('');
+  let history = useHistory();
 
   const dispatch = useDispatch();
-  const id = useSelector(state => state.rowsReducer.id);
-  const newId = id + 1;
-  const payload = { id: newId, domain, range };
+  const rowId = useSelector(state => state.rowsReducer.id);
+  const dictionaryId = useSelector(state => state.dictionariesReducer.id);
+  const rows = useSelector(state => state.rowsReducer.rows);
+
+  const handleAddDictionary = async () => {
+    const newId = dictionaryId + 1;
+    const payload = { id: newId, name, rows };
+    await dispatch({ payload, type: ADD_DICTIONARY });
+    history.push('/');
+  };
+
+  const handleAddRow = () => {
+    const newId = rowId + 1;
+    const payload = { id: newId, domain, range };
+    return dispatch({ payload, type: ADD_ROW });
+  };
 
   return (
     <div>
@@ -44,10 +60,7 @@ const AddDictionaryForm = () => {
           </Form>
         </Col>
         <Col xs="2">
-          <Button
-            className="mr-sm-2"
-            onClick={() => dispatch({ payload, type: ADD_ROW })}
-          >
+          <Button className="mr-sm-2" outline onClick={() => handleAddRow()}>
             <MdAdd />
           </Button>
         </Col>
@@ -64,12 +77,12 @@ const AddDictionaryForm = () => {
           </Form>
         </Col>
         <Col xs="2">
-          <Button className="mr-sm-2 mt-2">
+          <Button outline className="mr-sm-2 mt-2">
             <MdAdd />
           </Button>
         </Col>
       </Row>
-      <Button>+ Add</Button>
+      <Button onClick={() => handleAddDictionary()}>+ Add</Button>
     </div>
   );
 };

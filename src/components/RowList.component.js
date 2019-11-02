@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Row, Col } from 'reactstrap';
-import { MdRemove } from 'react-icons/md';
+import { MdDeleteForever } from 'react-icons/md';
 import { DELETE_ROW } from '../actions/types/rows.action.type';
 
 const RowList = () => {
@@ -32,8 +32,8 @@ const RowList = () => {
               <h6>{row.range}</h6>
             </Col>
             <Col xs="2">
-              <Button onClick={() => handleRemove(row.id)}>
-                <MdRemove />
+              <Button outline color="danger" onClick={() => handleRemove(row.id)}>
+                <MdDeleteForever />
               </Button>
             </Col>
           </Row>

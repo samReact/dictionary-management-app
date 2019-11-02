@@ -12,10 +12,9 @@ import {
   Button,
 } from 'reactstrap';
 import { Switch, Route, useHistory } from 'react-router-dom';
-
 import Logo from '../assets/logo.png';
-import Dictionary from './Dictionary.component';
 import RowForm from './RowForm.component';
+import DictionaryList from './DictionaryList.component';
 
 const Home = () => {
   const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
@@ -44,7 +43,9 @@ const Home = () => {
           >
             <Nav vertical>
               <NavItem>
-                <NavLink href="#">All dictionaries</NavLink>
+                <NavLink href="#" onClick={() => history.push('/')}>
+                  All dictionaries
+                </NavLink>
               </NavItem>
               <Button
                 color="primary"
@@ -64,18 +65,24 @@ const Home = () => {
               backgroundColor: '#fff',
             }}
           >
-            <Switch>
-              <Route exact path="/">
-                {dictionaries.length ? (
-                  dictionaries.map(dictionary => <Dictionary />)
-                ) : (
-                  <p>No dictionary available</p>
-                )}
-              </Route>
-              <Route path="/addDictionary">
-                <RowForm />
-              </Route>
-            </Switch>
+            <div
+              style={{
+                marginTop: '20vh',
+              }}
+            >
+              <Switch>
+                <Route exact path="/">
+                  {dictionaries.length ? (
+                    <DictionaryList />
+                  ) : (
+                    <p>No dictionary available</p>
+                  )}
+                </Route>
+                <Route path="/addDictionary">
+                  <RowForm />
+                </Route>
+              </Switch>
+            </div>
           </Col>
         </Row>
       </Container>

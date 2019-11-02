@@ -13,11 +13,10 @@ const rowsReducer = (state = initialState, { type, payload }) => {
         id: payload.id,
       };
     case DELETE_ROW:
-      const raw = state.rows.filter(el => el.id !== payload.id);
-      console.log(raw);
+      const rows = state.rows.filter(el => el.id !== payload.id);
       return {
         ...state,
-        rows: raw,
+        rows,
       };
     default:
       return state;
