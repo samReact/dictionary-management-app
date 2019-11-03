@@ -1,33 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Row, Col, FormGroup, Input, Label, Button, Form } from 'reactstrap';
-import { MdDeleteForever, MdAdd } from 'react-icons/md';
+import { MdDeleteForever, MdAdd, MdSave, MdEdit } from 'react-icons/md';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   DELETE_DICTIONARY_ROW,
   ADD_DICTIONARY_ROW,
+  UPDATE_DICTIONARY_ROW,
 } from '../actions/types/dictionaries.action.type';
 import { INCREMENT_ID } from '../actions/types/rows.action.type';
 
 const DictionaryEdit = () => {
   let location = useLocation();
-  const dispatch = useDispatch();
   const { id } = location.state;
+
+  const dispatch = useDispatch();
   const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
-  let dictionary = dictionaries.filter(elt => elt.id === id)[0] || [];
-  const [domain, setDomain] = useState('');
-  const [range, setRange] = useState('');
   const rowId = useSelector(state => state.rowsReducer.id);
 
-  useEffect(() => {
-    // Update the document title using the browser API
-  });
-  // const { rows = [] } = dictionary;
+  let dictionary = dictionaries.filter(elt => elt.id === id)[0] || [];
 
-  const handleRemove = payload => {
+  const [domain, setDomain] = useState('');
+  const [range, setRange] = useState('');
+  const [updatedRow, setRow] = useState({ id: 0, domain: '', range: '' });
+  const [activeId, setActiveId] = useState(null);
+
+  const handleDeleteRow = payload => {
     dispatch({ payload, type: DELETE_DICTIONARY_ROW });
   };
-
   const handleAddRow = async () => {
     let payload;
     const newId = rowId + 1;
@@ -37,6 +38,17 @@ const DictionaryEdit = () => {
     await dispatch({ payload, type: INCREMENT_ID });
     setDomain('');
     setRange('');
+  };
+  const handleSaveRow = row => {
+    let payload;
+    const { domain, range } = updatedRow;
+    payload = { dictionaryId: id, row: { id: row.id, domain, range } };
+    dispatch({ payload, type: UPDATE_DICTIONARY_ROW });
+    setActiveId(null);
+  };
+  const handleEditRow = async row => {
+    await setActiveId(row.id);
+    setRow({ id: row.id, domain: row.domain, range: row.range });
   };
 
   return (
@@ -50,10 +62,11 @@ const DictionaryEdit = () => {
                   Domain
                 </Label>
                 <Input
-                  value={row.domain}
+                  disabled={row.id !== activeId}
                   type="text"
                   name="domain"
-                  // onChange={e => setDomain(e.target.value)}
+                  defaultValue={row.domain}
+                  onChange={e => setRow({ ...updatedRow, domain: e.target.value })}
                 />
               </FormGroup>
               <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
@@ -62,23 +75,39 @@ const DictionaryEdit = () => {
                 </Label>
                 <Input
                   type="text"
-                  value={row.range}
+                  disabled={row.id !== activeId}
                   name="range"
-                  // onChange={e => setRange(e.target.value)}
+                  defaultValue={row.range}
+                  onChange={e => setRow({ ...updatedRow, range: e.target.value })}
                 />
               </FormGroup>
             </Form>
           </Col>
-          <Col xs="2">
+          <Col xs="1">
             <Button
               className="mr-sm-2"
               outline
-              onClick={() => handleRemove({ dictionaryId: dictionary.id, rowId: row.id })}
+              onClick={() =>
+                handleDeleteRow({ dictionaryId: dictionary.id, rowId: row.id })
+              }
               color="danger"
             >
               <MdDeleteForever />
             </Button>
           </Col>
+          {row.id === activeId ? (
+            <Col xs="1">
+              <Button className="mr-sm-2" outline onClick={() => handleSaveRow(row)}>
+                <MdSave />
+              </Button>
+            </Col>
+          ) : (
+            <Col xs="1">
+              <Button className="mr-sm-2" outline onClick={() => handleEditRow(row)}>
+                <MdEdit />
+              </Button>
+            </Col>
+          )}
         </Row>
       ))}
       <Row style={{ marginTop: '20%' }}>

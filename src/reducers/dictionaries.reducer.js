@@ -3,6 +3,7 @@ import {
   DELETE_DICTIONARY,
   DELETE_DICTIONARY_ROW,
   ADD_DICTIONARY_ROW,
+  UPDATE_DICTIONARY_ROW,
 } from '../actions/types/dictionaries.action.type';
 
 const initialState = {
@@ -11,6 +12,8 @@ const initialState = {
 };
 
 let dictionary;
+let filteredRows;
+let filteredDictionaries;
 
 const dictionariesReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -27,8 +30,8 @@ const dictionariesReducer = (state = initialState, { type, payload }) => {
       };
     case DELETE_DICTIONARY_ROW:
       dictionary = state.dictionaries.filter(el => el.id === payload.dictionaryId);
-      const filteredRows = dictionary[0].rows.filter(el => el.id !== payload.rowId);
-      const filteredDictionaries = state.dictionaries.filter(
+      filteredRows = dictionary[0].rows.filter(el => el.id !== payload.rowId);
+      filteredDictionaries = state.dictionaries.filter(
         el => el.id !== payload.dictionaryId
       );
       dictionary = { ...dictionary[0], rows: filteredRows };
@@ -47,6 +50,19 @@ const dictionariesReducer = (state = initialState, { type, payload }) => {
         ...state,
         dictionaries: [...newDictionaries, dictionary],
       };
+    case UPDATE_DICTIONARY_ROW:
+      dictionary = state.dictionaries.filter(el => el.id === payload.dictionaryId);
+      filteredRows = dictionary[0].rows.filter(el => el.id !== payload.row.id);
+      let updatedRows = [...filteredRows, payload.row];
+      dictionary = { ...dictionary[0], rows: updatedRows };
+      filteredDictionaries = state.dictionaries.filter(
+        el => el.id !== payload.dictionaryId
+      );
+      return {
+        ...state,
+        dictionaries: [...filteredDictionaries, dictionary],
+      };
+
     default:
       return state;
   }

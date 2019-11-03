@@ -12,6 +12,7 @@ import {
   Button,
 } from 'reactstrap';
 import { Switch, Route, useHistory } from 'react-router-dom';
+
 import Logo from '../assets/logo.png';
 import RowForm from './RowForm.component';
 import DictionaryList from './DictionaryList.component';
