@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Form, FormGroup, Label, Input, Button, Row, Col } from 'reactstrap';
 import { MdAdd } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_ROW } from '../actions/types/rows.action.type';
+import { useHistory } from 'react-router-dom';
+
+import { ADD_ROW, CLEAR_ROWS } from '../actions/types/rows.action.type';
 import RowList from './RowList.component';
 import { ADD_DICTIONARY } from '../actions/types/dictionaries.action.type';
-import { useHistory } from 'react-router-dom';
 
 const AddDictionaryForm = () => {
   const [domain, setDomain] = useState('');
@@ -22,13 +23,16 @@ const AddDictionaryForm = () => {
     const newId = dictionaryId + 1;
     const payload = { id: newId, name, rows };
     await dispatch({ payload, type: ADD_DICTIONARY });
+    await dispatch({ type: CLEAR_ROWS });
     history.push('/');
   };
 
-  const handleAddRow = () => {
+  const handleAddRow = async () => {
     const newId = rowId + 1;
     const payload = { id: newId, domain, range };
-    return dispatch({ payload, type: ADD_ROW });
+    await dispatch({ payload, type: ADD_ROW });
+    setDomain('');
+    setRange('');
   };
 
   return (
@@ -46,6 +50,7 @@ const AddDictionaryForm = () => {
                 Domain
               </Label>
               <Input
+                value={domain}
                 type="text"
                 name="domain"
                 onChange={e => setDomain(e.target.value)}
@@ -55,7 +60,12 @@ const AddDictionaryForm = () => {
               <Label for="examplePassword" className="mr-sm-2">
                 Range
               </Label>
-              <Input type="text" name="range" onChange={e => setRange(e.target.value)} />
+              <Input
+                type="text"
+                value={range}
+                name="range"
+                onChange={e => setRange(e.target.value)}
+              />
             </FormGroup>
           </Form>
         </Col>

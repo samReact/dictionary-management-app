@@ -34,7 +34,15 @@ const DictionaryList = () => {
               <h6>{dictionary.rows.length}</h6>
             </Col>
             <Col xs="1">
-              <Button onClick={() => handleRemove(dictionary.id)} outline>
+              <Button
+                onClick={() =>
+                  history.push({
+                    pathname: '/editDictionary',
+                    state: { id: dictionary.id },
+                  })
+                }
+                outline
+              >
                 <MdEdit />
               </Button>
             </Col>

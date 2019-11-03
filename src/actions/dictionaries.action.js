@@ -1,4 +1,9 @@
-import { ADD_DICTIONARY, DELETE_DICTIONARY } from './types/dictionaries.action.type';
+import {
+  ADD_DICTIONARY,
+  DELETE_DICTIONARY,
+  DELETE_DICTIONARY_ROW,
+  ADD_DICTIONARY_ROW,
+} from './types/dictionaries.action.type';
 
 export const addDictionary = payload => ({
   payload,
@@ -8,4 +13,14 @@ export const addDictionary = payload => ({
 export const deleteDictionary = payload => ({
   payload,
   type: DELETE_DICTIONARY,
+});
+
+export const deleteDictionaryRow = payload => ({
+  payload,
+  type: DELETE_DICTIONARY_ROW,
+});
+
+export const addDictionaryRow = payload => ({
+  payload,
+  type: ADD_DICTIONARY_ROW,
 });

@@ -16,6 +16,7 @@ import Logo from '../assets/logo.png';
 import RowForm from './RowForm.component';
 import DictionaryList from './DictionaryList.component';
 import Dictionary from './Dictionary.component';
+import DictionaryEdit from './DictionaryEdit.component';
 
 const Home = () => {
   const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
@@ -84,6 +85,9 @@ const Home = () => {
                 </Route>
                 <Route path="/dictionary">
                   <Dictionary />
+                </Route>
+                <Route path="/editDictionary">
+                  <DictionaryEdit />
                 </Route>
               </Switch>
             </div>

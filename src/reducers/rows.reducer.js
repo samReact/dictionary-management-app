@@ -1,4 +1,9 @@
-import { ADD_ROW, DELETE_ROW } from '../actions/types/rows.action.type';
+import {
+  ADD_ROW,
+  DELETE_ROW,
+  CLEAR_ROWS,
+  INCREMENT_ID,
+} from '../actions/types/rows.action.type';
 
 const initialState = {
   rows: [],
@@ -17,6 +22,17 @@ const rowsReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         rows,
+      };
+
+    case CLEAR_ROWS:
+      return {
+        ...state,
+        rows: [],
+      };
+    case INCREMENT_ID:
+      return {
+        ...state,
+        id: payload.id,
       };
     default:
       return state;

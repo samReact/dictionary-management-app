@@ -1,12 +1,16 @@
 import {
   ADD_DICTIONARY,
   DELETE_DICTIONARY,
+  DELETE_DICTIONARY_ROW,
+  ADD_DICTIONARY_ROW,
 } from '../actions/types/dictionaries.action.type';
 
 const initialState = {
   dictionaries: [],
   id: -1,
 };
+
+let dictionary;
 
 const dictionariesReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -20,6 +24,28 @@ const dictionariesReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         dictionaries,
+      };
+    case DELETE_DICTIONARY_ROW:
+      dictionary = state.dictionaries.filter(el => el.id === payload.dictionaryId);
+      const filteredRows = dictionary[0].rows.filter(el => el.id !== payload.rowId);
+      const filteredDictionaries = state.dictionaries.filter(
+        el => el.id !== payload.dictionaryId
+      );
+      dictionary = { ...dictionary[0], rows: filteredRows };
+      return {
+        ...state,
+        dictionaries: [...filteredDictionaries, dictionary],
+      };
+    case ADD_DICTIONARY_ROW:
+      dictionary = state.dictionaries.filter(el => el.id === payload.dictionaryId);
+      const rows = [...dictionary[0].rows, payload.row];
+      const newDictionaries = state.dictionaries.filter(
+        el => el.id !== payload.dictionaryId
+      );
+      dictionary = { ...dictionary[0], rows };
+      return {
+        ...state,
+        dictionaries: [...newDictionaries, dictionary],
       };
     default:
       return state;
