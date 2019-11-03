@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button, Row, Col } from 'reactstrap';
 import { MdDeleteForever } from 'react-icons/md';
 import { DELETE_ROW } from '../actions/types/rows.action.type';
+import { ScrollWrapper } from '../styled/style';
 
 const RowList = () => {
   const rows = useSelector(state => state.rowsReducer.rows);
@@ -22,7 +23,7 @@ const RowList = () => {
           <h3>Range</h3>
         </Col>
       </Row>
-      <div style={{ height: '15vh', overflowY: 'scroll' }}>
+      <ScrollWrapper>
         {rows.map(row => (
           <Row key={row.id} className="mt-2">
             <Col xs="5">
@@ -38,7 +39,7 @@ const RowList = () => {
             </Col>
           </Row>
         ))}
-      </div>
+      </ScrollWrapper>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { Button, Row, Col } from 'reactstrap';
 import { MdDeleteForever, MdEdit, MdRemoveRedEye } from 'react-icons/md';
 import { DELETE_DICTIONARY } from '../actions/types/dictionaries.action.type';
 import { useHistory } from 'react-router-dom';
+import { ComponentWrapper } from '../styled/style';
 
 const DictionaryList = () => {
   const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
@@ -15,7 +16,7 @@ const DictionaryList = () => {
   };
 
   return (
-    <div>
+    <ComponentWrapper>
       <Row>
         <Col xs="4">
           <h3>Dictionary name</h3>
@@ -64,7 +65,7 @@ const DictionaryList = () => {
           </Row>
         ))}
       </div>
-    </div>
+    </ComponentWrapper>
   );
 };
 

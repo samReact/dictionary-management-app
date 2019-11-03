@@ -1,37 +1,32 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Navbar,
-  NavbarBrand,
-  Row,
-  Col,
-  Container,
-  Nav,
-  NavItem,
-  NavLink,
-  Button,
-} from 'reactstrap';
-import { Switch, Route, useHistory } from 'react-router-dom';
+import { NavbarBrand, Row, Col, Container, Nav } from 'reactstrap';
+import { Switch, Route } from 'react-router-dom';
 
 import Logo from '../assets/logo.png';
 import RowForm from './RowForm.component';
 import DictionaryList from './DictionaryList.component';
 import Dictionary from './Dictionary.component';
 import DictionaryEdit from './DictionaryEdit.component';
+import {
+  IconAdd,
+  IconList,
+  StyledLink,
+  StyledNavBar,
+  VCenteredWrapper,
+  VHCenteredWrapper,
+} from '../styled/style';
 
 const Home = () => {
   const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
-  let history = useHistory();
+
   return (
     <div>
-      <Navbar
-        fixed="top"
-        style={{ backgroundColor: '#f2f6fa', borderBottom: '1px solid lightgrey' }}
-      >
+      <StyledNavBar fixed="top">
         <NavbarBrand className="mr-auto">
           <img src={Logo} alt="logo" />
         </NavbarBrand>
-      </Navbar>
+      </StyledNavBar>
       <Container fluid>
         <Row>
           <Col
@@ -39,25 +34,20 @@ const Home = () => {
             sm="3"
             style={{
               height: '100vh',
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
             }}
           >
-            <Nav vertical>
-              <NavItem>
-                <NavLink href="#" onClick={() => history.push('/')}>
+            <VCenteredWrapper>
+              <Nav vertical>
+                <StyledLink to="/">
+                  <IconList />
                   All dictionaries
-                </NavLink>
-              </NavItem>
-              <Button
-                color="primary"
-                block
-                onClick={() => history.push('/addDictionary')}
-              >
-                + Add a dictionary
-              </Button>
-            </Nav>
+                </StyledLink>
+                <StyledLink to="/addDictionary">
+                  <IconAdd />
+                  Add a dictionary
+                </StyledLink>
+              </Nav>
+            </VCenteredWrapper>
           </Col>
 
           <Col
@@ -68,30 +58,26 @@ const Home = () => {
               backgroundColor: '#fff',
             }}
           >
-            <div
-              style={{
-                marginTop: '20vh',
-              }}
-            >
-              <Switch>
-                <Route exact path="/">
-                  {dictionaries.length ? (
-                    <DictionaryList />
-                  ) : (
-                    <p>No dictionary available</p>
-                  )}
-                </Route>
-                <Route path="/addDictionary">
-                  <RowForm />
-                </Route>
-                <Route path="/dictionary">
-                  <Dictionary />
-                </Route>
-                <Route path="/editDictionary">
-                  <DictionaryEdit />
-                </Route>
-              </Switch>
-            </div>
+            <Switch>
+              <Route exact path="/">
+                {dictionaries.length ? (
+                  <DictionaryList />
+                ) : (
+                  <VHCenteredWrapper>
+                    <h4>No dictionary available !</h4>
+                  </VHCenteredWrapper>
+                )}
+              </Route>
+              <Route path="/addDictionary">
+                <RowForm />
+              </Route>
+              <Route path="/dictionary">
+                <Dictionary />
+              </Route>
+              <Route path="/editDictionary">
+                <DictionaryEdit />
+              </Route>
+            </Switch>
           </Col>
         </Row>
       </Container>

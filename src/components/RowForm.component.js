@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, FormGroup, Label, Input, Button, Row, Col } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import { MdAdd } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -7,6 +7,12 @@ import { useHistory } from 'react-router-dom';
 import { ADD_ROW, CLEAR_ROWS } from '../actions/types/rows.action.type';
 import RowList from './RowList.component';
 import { ADD_DICTIONARY } from '../actions/types/dictionaries.action.type';
+import {
+  StyledAddButton,
+  ComponentWrapper,
+  NameWrapper,
+  StyledAddRowButton,
+} from '../styled/style';
 
 const AddDictionaryForm = () => {
   const [domain, setDomain] = useState('');
@@ -36,64 +42,75 @@ const AddDictionaryForm = () => {
   };
 
   return (
-    <div>
-      <h2 style={{ marginTop: '10%' }}>{name}</h2>
-      <div style={{ marginTop: '10%' }}>
-        <RowList />
-      </div>
+    <ComponentWrapper>
+      <ComponentWrapper>
+        <h3>Name</h3>
+        <Row>
+          <Col xs={4}>
+            <NameWrapper>
+              <h5>{name}</h5>
+            </NameWrapper>
+          </Col>
+        </Row>
+      </ComponentWrapper>
+      <RowList />
+      <div style={{ marginTop: '20vh' }}>
+        <Form>
+          <FormGroup row>
+            <Label for="name" sm={1}>
+              Name
+            </Label>
+            <Col sm={4}>
+              <Input
+                type="text"
+                name="name"
+                onChange={e => setName(e.target.value)}
+                placeholder="Name"
+              />
+            </Col>
+          </FormGroup>
+        </Form>
 
-      <Row style={{ marginTop: '20%' }}>
-        <Col xs="10">
-          <Form inline>
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-              <Label for="exampleEmail" className="mr-sm-2">
-                Domain
-              </Label>
+        <Form>
+          <FormGroup row>
+            <Label for="domain" sm={1}>
+              Domain
+            </Label>
+            <Col sm={4}>
               <Input
                 value={domain}
                 type="text"
                 name="domain"
                 onChange={e => setDomain(e.target.value)}
+                placeholder="Domain"
               />
-            </FormGroup>
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-              <Label for="examplePassword" className="mr-sm-2">
-                Range
-              </Label>
+            </Col>
+            <Label for="range" sm={1}>
+              Range
+            </Label>
+            <Col sm={4}>
               <Input
                 type="text"
                 value={range}
                 name="range"
                 onChange={e => setRange(e.target.value)}
+                placeholder="Range"
               />
-            </FormGroup>
-          </Form>
-        </Col>
-        <Col xs="2">
-          <Button className="mr-sm-2" outline onClick={() => handleAddRow()}>
-            <MdAdd />
-          </Button>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs="10">
-          <Form inline>
-            <FormGroup className="mb-2 mt-2 mr-sm-2 mb-sm-0">
-              <Label for="exampleEmail" className="mr-sm-2">
-                Name
-              </Label>
-              <Input type="text" name="domain" onChange={e => setName(e.target.value)} />
-            </FormGroup>
-          </Form>
-        </Col>
-        <Col xs="2">
-          <Button outline className="mr-sm-2 mt-2">
-            <MdAdd />
-          </Button>
-        </Col>
-      </Row>
-      <Button onClick={() => handleAddDictionary()}>+ Add</Button>
-    </div>
+            </Col>
+            <Col sm={2}>
+              <StyledAddRowButton outline onClick={() => handleAddRow()}>
+                <MdAdd />
+              </StyledAddRowButton>
+            </Col>
+          </FormGroup>
+        </Form>
+        {name.length && rows.length ? (
+          <StyledAddButton size="lg" onClick={() => handleAddDictionary()}>
+            Add
+          </StyledAddButton>
+        ) : null}
+      </div>
+    </ComponentWrapper>
   );
 };
 
