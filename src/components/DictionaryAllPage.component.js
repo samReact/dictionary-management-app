@@ -5,7 +5,7 @@ import { Row, Col } from 'reactstrap';
 import { ComponentWrapper } from '../styled/style';
 import DictionaryRow from './DictionaryRow.component';
 
-const DictionaryList = () => {
+const DictionaryAllPage = () => {
   const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
 
   return (
@@ -27,4 +27,4 @@ const DictionaryList = () => {
   );
 };
 
-export default DictionaryList;
+export default DictionaryAllPage;

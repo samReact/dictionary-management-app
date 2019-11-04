@@ -2,8 +2,9 @@ import React from 'react';
 import { Table, Row, Col } from 'reactstrap';
 import { useLocation } from 'react-router-dom';
 import { ComponentWrapper } from '../styled/style';
+import { IconWarning } from '../styled/style';
 
-const Dictionary = () => {
+const DictionaryPage = () => {
   let location = useLocation();
   const { dictionary } = location.state;
   const { rows } = dictionary;
@@ -16,6 +17,8 @@ const Dictionary = () => {
           <Table bordered>
             <thead>
               <tr>
+                <th></th>
+
                 <th>Domain</th>
                 <th>Range</th>
               </tr>
@@ -23,6 +26,7 @@ const Dictionary = () => {
             <tbody>
               {rows.map(row => (
                 <tr key={row.id}>
+                  <td>{row.hasDuplicate && <IconWarning />}</td>
                   <td>{row.domain}</td>
                   <td>{row.range}</td>
                 </tr>
@@ -35,4 +39,4 @@ const Dictionary = () => {
   );
 };
 
-export default Dictionary;
+export default DictionaryPage;

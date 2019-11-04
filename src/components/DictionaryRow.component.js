@@ -9,7 +9,7 @@ import { notify } from '../utils';
 import { IconWarning } from '../styled/style';
 
 const DictionaryRow = ({ dictionary }) => {
-  const hasDuplicate = dictionary.rows.map(row => row.hasDuplicate);
+  const hasDuplicate = dictionary.rows.filter(row => row.hasDuplicate);
   const dispatch = useDispatch();
   let history = useHistory();
   const handleRemove = id => {
@@ -26,7 +26,7 @@ const DictionaryRow = ({ dictionary }) => {
         <h6>{dictionary.rows.length}</h6>
       </Col>
       <Col xs="1" style={{ display: 'flex', alignItems: 'center' }}>
-        {hasDuplicate.length && <IconWarning />}
+        {hasDuplicate.length ? <IconWarning /> : null}
       </Col>
       <Col xs={{ size: 1 }}>
         <Button

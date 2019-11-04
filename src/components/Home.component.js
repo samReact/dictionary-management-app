@@ -6,10 +6,10 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Logo from '../assets/logo.png';
-import DictionaryForm from './DictionaryForm.component';
-import DictionaryList from './DictionaryList.component';
-import Dictionary from './Dictionary.component';
-import DictionaryEdit from './DictionaryEdit.component';
+import DictionaryAddPage from './DictionaryAddPage.component';
+import DictionaryAllPage from './DictionaryAllPage.component';
+import DictionaryPage from './DictionaryPage.component';
+import DictionaryEditPage from './DictionaryEditPage.component';
 import {
   IconAdd,
   IconList,
@@ -65,7 +65,7 @@ const Home = () => {
             <Switch>
               <Route exact path="/">
                 {dictionaries.length ? (
-                  <DictionaryList />
+                  <DictionaryAllPage />
                 ) : (
                   <VHCenteredWrapper>
                     <h4>No dictionary available !</h4>
@@ -73,13 +73,13 @@ const Home = () => {
                 )}
               </Route>
               <Route path="/addDictionary">
-                <DictionaryForm />
+                <DictionaryAddPage />
               </Route>
               <Route path="/dictionary">
-                <Dictionary />
+                <DictionaryPage />
               </Route>
               <Route path="/editDictionary">
-                <DictionaryEdit />
+                <DictionaryEditPage />
               </Route>
             </Switch>
           </Col>

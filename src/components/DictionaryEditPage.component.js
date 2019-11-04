@@ -3,9 +3,9 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import RowForm from './RowForm.component';
-import DictionaryRowForm from './DictionaryRowForm';
+import DictionaryRowForm from './DictionaryRowForm.component';
 
-const DictionaryEdit = () => {
+const DictionaryEditPagePage = () => {
   let location = useLocation();
   const { id } = location.state;
 
@@ -25,4 +25,4 @@ const DictionaryEdit = () => {
   );
 };
 
-export default DictionaryEdit;
+export default DictionaryEditPagePage;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col, FormGroup, Input, Label, Button, Form } from 'reactstrap';
+import { Col, FormGroup, Input, Label, Button, Form } from 'reactstrap';
 import { MdDeleteForever, MdSave, MdEdit } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import validator from 'validator';
@@ -15,6 +15,7 @@ const DictionaryRowForm = ({ dictionary, row }) => {
   const [errorDomain, setErrorDomain] = useState(false);
   const [errorRange, setErrorRange] = useState(false);
   const [activeId, setActiveId] = useState(null);
+  const [readyForSave, setReady] = useState(false);
   const [updatedRow, setRow] = useState({ id: 0, domain: '', range: '' });
 
   const dispatch = useDispatch();
@@ -84,7 +85,10 @@ const DictionaryRowForm = ({ dictionary, row }) => {
         </Label>
         <Col sm={3}>
           <Input
-            onFocus={() => setErrorDomain(false)}
+            onFocus={() => {
+              setErrorDomain(false);
+              return setReady(true);
+            }}
             invalid={errorDomain}
             disabled={row.id !== activeId}
             type="text"
@@ -120,7 +124,7 @@ const DictionaryRowForm = ({ dictionary, row }) => {
             <MdDeleteForever />
           </Button>
         </Col>
-        {row.id === activeId ? (
+        {row.id === activeId && readyForSave ? (
           <Col sm={1}>
             <Button className="mr-sm-2" outline onClick={() => handleRowValidation(row)}>
               <MdSave />

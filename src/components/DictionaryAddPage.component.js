@@ -10,7 +10,7 @@ import { ADD_DICTIONARY } from '../actions/types/dictionaries.action.type';
 import { StyledAddButton, ComponentWrapper, NameWrapper } from '../styled/style';
 import RowForm from './RowForm.component';
 
-const DictionaryForm = () => {
+const DictionaryAddPage = () => {
   const [name, setName] = useState('');
 
   let history = useHistory();
@@ -68,4 +68,4 @@ const DictionaryForm = () => {
   );
 };
 
-export default DictionaryForm;
+export default DictionaryAddPage;
