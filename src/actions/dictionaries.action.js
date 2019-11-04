@@ -4,6 +4,7 @@ import {
   DELETE_DICTIONARY_ROW,
   ADD_DICTIONARY_ROW,
   UPDATE_DICTIONARY_ROW,
+  DELETE_DICTIONARY_ROW_WARNING,
 } from './types/dictionaries.action.type';
 
 export const addDictionary = payload => ({
@@ -29,4 +30,9 @@ export const addDictionaryRow = payload => ({
 export const updateDictionaryRow = payload => ({
   payload,
   type: UPDATE_DICTIONARY_ROW,
+});
+
+export const deleteDictionaryRowWarning = payload => ({
+  payload,
+  type: DELETE_DICTIONARY_ROW_WARNING,
 });

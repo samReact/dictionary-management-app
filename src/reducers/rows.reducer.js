@@ -10,7 +10,6 @@ const initialState = {
   rows: [],
   id: -1,
 };
-
 const rowsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case ADD_ROW:
@@ -24,7 +23,6 @@ const rowsReducer = (state = initialState, { type, payload }) => {
         ...state,
         rows,
       };
-
     case CLEAR_ROWS:
       return {
         ...state,
@@ -39,8 +37,6 @@ const rowsReducer = (state = initialState, { type, payload }) => {
       const row = state.rows.filter(el => el.id === payload.id);
       const updatedRow = { ...row[0], ...payload };
       const filteredRows = state.rows.filter(el => el.id !== payload.id);
-
-      console.log(updatedRow);
       return {
         ...state,
         rows: [...filteredRows, updatedRow],

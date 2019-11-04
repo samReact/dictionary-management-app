@@ -2,9 +2,11 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Row, Col } from 'reactstrap';
 import { MdDeleteForever, MdEdit, MdRemoveRedEye } from 'react-icons/md';
-import { DELETE_DICTIONARY } from '../actions/types/dictionaries.action.type';
 import { useHistory } from 'react-router-dom';
+
+import { DELETE_DICTIONARY } from '../actions/types/dictionaries.action.type';
 import { ComponentWrapper } from '../styled/style';
+import { notify } from '../utils';
 
 const DictionaryList = () => {
   const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
@@ -13,6 +15,7 @@ const DictionaryList = () => {
   const handleRemove = id => {
     const payload = { id };
     dispatch({ payload, type: DELETE_DICTIONARY });
+    notify('success', 'Dictionary deleted !');
   };
 
   return (
@@ -34,7 +37,7 @@ const DictionaryList = () => {
             <Col xs="4">
               <h6>{dictionary.rows.length}</h6>
             </Col>
-            <Col xs="1">
+            <Col xs={{ size: 1, offset: 1 }}>
               <Button
                 onClick={() =>
                   history.push({

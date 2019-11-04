@@ -2,9 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavbarBrand, Row, Col, Container, Nav } from 'reactstrap';
 import { Switch, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Logo from '../assets/logo.png';
-import RowForm from './RowForm.component';
+import DictionaryForm from './DictionaryForm.component';
 import DictionaryList from './DictionaryList.component';
 import Dictionary from './Dictionary.component';
 import DictionaryEdit from './DictionaryEdit.component';
@@ -23,6 +25,8 @@ const Home = () => {
   return (
     <div>
       <StyledNavBar fixed="top">
+        <ToastContainer />
+
         <NavbarBrand className="mr-auto">
           <img src={Logo} alt="logo" />
         </NavbarBrand>
@@ -69,7 +73,7 @@ const Home = () => {
                 )}
               </Route>
               <Route path="/addDictionary">
-                <RowForm />
+                <DictionaryForm />
               </Route>
               <Route path="/dictionary">
                 <Dictionary />

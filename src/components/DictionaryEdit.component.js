@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Row, Col, FormGroup, Input, Label, Button, Form } from 'reactstrap';
-import { MdDeleteForever, MdAdd, MdSave, MdEdit } from 'react-icons/md';
+import { MdDeleteForever, MdSave, MdEdit } from 'react-icons/md';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
   DELETE_DICTIONARY_ROW,
-  ADD_DICTIONARY_ROW,
   UPDATE_DICTIONARY_ROW,
 } from '../actions/types/dictionaries.action.type';
-import { INCREMENT_ID } from '../actions/types/rows.action.type';
+import RowForm from './RowForm.component';
+import { notify } from '../utils';
+import { ScrollWrapper, IconWarning } from '../styled/style';
 
 const DictionaryEdit = () => {
   let location = useLocation();
@@ -17,28 +18,33 @@ const DictionaryEdit = () => {
 
   const dispatch = useDispatch();
   const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
-  const rowId = useSelector(state => state.rowsReducer.id);
 
   let dictionary = dictionaries.filter(elt => elt.id === id)[0] || [];
 
-  const [domain, setDomain] = useState('');
-  const [range, setRange] = useState('');
   const [updatedRow, setRow] = useState({ id: 0, domain: '', range: '' });
   const [activeId, setActiveId] = useState(null);
 
-  const handleDeleteRow = payload => {
-    dispatch({ payload, type: DELETE_DICTIONARY_ROW });
-  };
-  const handleAddRow = async () => {
+  const handleDeleteRow = async row => {
     let payload;
-    const newId = rowId + 1;
-    payload = { dictionaryId: id, row: { id: newId, domain, range } };
-    await dispatch({ payload, type: ADD_DICTIONARY_ROW });
-    payload = { id: newId };
-    await dispatch({ payload, type: INCREMENT_ID });
-    setDomain('');
-    setRange('');
+
+    const duplicate = await dictionary.rows.filter(
+      elt => elt.domain === row.domain && elt.hasDuplicate
+    );
+    if (duplicate.length) {
+      payload = {
+        dictionaryId: id,
+        row: {
+          ...duplicate[0],
+          hasDuplicate: false,
+        },
+      };
+      await dispatch({ payload, type: UPDATE_DICTIONARY_ROW });
+    }
+    payload = { dictionaryId: dictionary.id, rowId: row.id };
+    dispatch({ payload, type: DELETE_DICTIONARY_ROW });
+    notify('success', 'Row removed !');
   };
+
   const handleSaveRow = row => {
     let payload;
     const { domain, range } = updatedRow;
@@ -55,10 +61,10 @@ const DictionaryEdit = () => {
     <div style={{ marginTop: '20%' }}>
       {dictionary.rows.map(row => (
         <Row key={row.id} className="mt-2">
-          <Col xs="10">
+          <Col xs="9">
             <Form inline>
               <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <Label for="exampleEmail" className="mr-sm-2">
+                <Label for="domain" className="mr-sm-2">
                   Domain
                 </Label>
                 <Input
@@ -70,7 +76,7 @@ const DictionaryEdit = () => {
                 />
               </FormGroup>
               <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <Label for="examplePassword" className="mr-sm-2">
+                <Label for="range" className="mr-sm-2">
                   Range
                 </Label>
                 <Input
@@ -83,13 +89,14 @@ const DictionaryEdit = () => {
               </FormGroup>
             </Form>
           </Col>
+          <Col xs="1" style={{ display: 'flex', alignItems: 'center' }}>
+            {row.hasDuplicate && <IconWarning />}
+          </Col>
           <Col xs="1">
             <Button
               className="mr-sm-2"
               outline
-              onClick={() =>
-                handleDeleteRow({ dictionaryId: dictionary.id, rowId: row.id })
-              }
+              onClick={() => handleDeleteRow(row)}
               color="danger"
             >
               <MdDeleteForever />
@@ -110,39 +117,9 @@ const DictionaryEdit = () => {
           )}
         </Row>
       ))}
-      <Row style={{ marginTop: '20%' }}>
-        <Col xs="10">
-          <Form inline>
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-              <Label for="exampleEmail" className="mr-sm-2">
-                Domain
-              </Label>
-              <Input
-                value={domain}
-                type="text"
-                name="domain"
-                onChange={e => setDomain(e.target.value)}
-              />
-            </FormGroup>
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-              <Label for="examplePassword" className="mr-sm-2">
-                Range
-              </Label>
-              <Input
-                type="text"
-                value={range}
-                name="range"
-                onChange={e => setRange(e.target.value)}
-              />
-            </FormGroup>
-          </Form>
-        </Col>
-        <Col xs="2">
-          <Button className="mr-sm-2" outline onClick={() => handleAddRow()}>
-            <MdAdd />
-          </Button>
-        </Col>
-      </Row>
+      <div style={{ marginTop: '20vh' }}>
+        <RowForm dictionary={dictionary} dictionaryId={id} />
+      </div>
     </div>
   );
 };
