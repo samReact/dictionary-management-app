@@ -76,6 +76,7 @@ const DictionaryRowForm = ({ dictionary, row }) => {
     payload = { dictionaryId: dictionary.id, row };
     dispatch({ payload, type: UPDATE_DICTIONARY_ROW });
     setActiveId(null);
+    notify('success', 'Row updated !');
   };
 
   return (

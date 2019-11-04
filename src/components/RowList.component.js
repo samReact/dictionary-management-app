@@ -5,9 +5,12 @@ import { MdDeleteForever } from 'react-icons/md';
 import { DELETE_ROW, DELETE_ROW_WARNING } from '../actions/types/rows.action.type';
 import { ScrollWrapper, IconWarning } from '../styled/style';
 
+import { notify } from '../utils';
+
 const RowList = () => {
   const rows = useSelector(state => state.rowsReducer.rows);
   const dispatch = useDispatch();
+
   const handleDelete = async row => {
     let payload;
     const duplicate = await rows.filter(
@@ -19,6 +22,7 @@ const RowList = () => {
     }
     payload = { id: row.id };
     dispatch({ payload, type: DELETE_ROW });
+    notify('success', 'Row removed !');
   };
 
   return (
