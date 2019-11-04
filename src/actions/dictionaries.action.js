@@ -31,8 +31,3 @@ export const updateDictionaryRow = payload => ({
   payload,
   type: UPDATE_DICTIONARY_ROW,
 });
-
-export const deleteDictionaryRowWarning = payload => ({
-  payload,
-  type: DELETE_DICTIONARY_ROW_WARNING,
-});

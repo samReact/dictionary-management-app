@@ -4,7 +4,6 @@ import {
   DELETE_DICTIONARY_ROW,
   ADD_DICTIONARY_ROW,
   UPDATE_DICTIONARY_ROW,
-  DELETE_DICTIONARY_ROW_WARNING,
 } from '../actions/types/dictionaries.action.type';
 
 const initialState = {
@@ -66,15 +65,6 @@ const dictionariesReducer = (state = initialState, { type, payload }) => {
         ...state,
         dictionaries: [...filteredDictionaries, dictionary],
       };
-    // case DELETE_DICTIONARY_ROW_WARNING:
-    //   dictionary = findDictionary(state, payload);
-    //   filteredRows = dictionary[0].rows.filter(el => el.id !== payload.row.id);
-    //   const row = dictionary[0].rows.filter(el => el.id === payload.row.id);
-    //   updatedRows = [...filteredRows, payload.row];
-
-    //   return {
-    //     ...state,
-    //   };
 
     default:
       return state;
