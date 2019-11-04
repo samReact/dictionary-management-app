@@ -20,7 +20,7 @@ const DictionaryAllPage = () => {
       </Row>
       <div style={{ overflowY: 'scroll' }}>
         {dictionaries.map(dictionary => (
-          <DictionaryRow dictionary={dictionary} />
+          <DictionaryRow key={dictionary.id} dictionary={dictionary} />
         ))}
       </div>
     </ComponentWrapper>

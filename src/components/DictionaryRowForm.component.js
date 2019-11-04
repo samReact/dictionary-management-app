@@ -15,12 +15,11 @@ const DictionaryRowForm = ({ dictionary, row }) => {
   const [errorDomain, setErrorDomain] = useState(false);
   const [errorRange, setErrorRange] = useState(false);
   const [activeId, setActiveId] = useState(null);
-  const [readyForSave, setReady] = useState(false);
   const [updatedRow, setRow] = useState({ id: 0, domain: '', range: '' });
 
   const dispatch = useDispatch();
 
-  const handleRowValidation = async currentRow => {
+  const handleRowValidation = async () => {
     let cycle, duplicate;
     let hasDuplicate = { hasDuplicate: false };
     validator.trim(updatedRow.domain);
@@ -29,8 +28,12 @@ const DictionaryRowForm = ({ dictionary, row }) => {
       setErrorDomain(validator.isEmpty(updatedRow.domain));
       return setErrorRange(validator.isEmpty(updatedRow.range));
     }
-    cycle = await dictionary.rows.filter(row => row.range === updatedRow.domain);
-    duplicate = await dictionary.rows.filter(row => row.domain === updatedRow.domain);
+    cycle = await dictionary.rows.filter(
+      row => row.range === updatedRow.domain && row.id !== updatedRow.id
+    );
+    duplicate = await dictionary.rows.filter(
+      row => row.domain === updatedRow.domain && row.id !== updatedRow.id
+    );
 
     if (cycle.length) {
       notify('error', 'Chain or cycle !');
@@ -65,9 +68,9 @@ const DictionaryRowForm = ({ dictionary, row }) => {
     notify('success', 'Row removed !');
   };
 
-  const handleEditRow = async row => {
-    await setActiveId(row.id);
-    setRow({ id: row.id, domain: row.domain, range: row.range });
+  const handleEditRow = row => {
+    setActiveId(row.id);
+    setRow({ ...row });
   };
 
   const handleSaveRow = row => {
@@ -87,7 +90,6 @@ const DictionaryRowForm = ({ dictionary, row }) => {
           <Input
             onFocus={() => {
               setErrorDomain(false);
-              return setReady(true);
             }}
             invalid={errorDomain}
             disabled={row.id !== activeId}
@@ -124,9 +126,9 @@ const DictionaryRowForm = ({ dictionary, row }) => {
             <MdDeleteForever />
           </Button>
         </Col>
-        {row.id === activeId && readyForSave ? (
+        {row.id === activeId ? (
           <Col sm={1}>
-            <Button className="mr-sm-2" outline onClick={() => handleRowValidation(row)}>
+            <Button className="mr-sm-2" outline onClick={() => handleRowValidation()}>
               <MdSave />
             </Button>
           </Col>
