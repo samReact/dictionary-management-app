@@ -7,7 +7,12 @@ import { notify } from '../utils';
 import { CLEAR_ROWS } from '../actions/types/rows.action.type';
 import RowList from './RowList.component';
 import { ADD_DICTIONARY } from '../actions/types/dictionaries.action.type';
-import { StyledAddButton, ComponentWrapper, NameWrapper } from '../styled/style';
+import {
+  StyledAddButton,
+  ComponentWrapper,
+  NameWrapper,
+  ContentWrapper,
+} from '../styled/style';
 import RowForm from './RowForm.component';
 
 const DictionaryAddPage = () => {
@@ -41,7 +46,7 @@ const DictionaryAddPage = () => {
         </Row>
       </ComponentWrapper>
       <RowList />
-      <div style={{ marginTop: '20vh' }}>
+      <ContentWrapper>
         <Form>
           <FormGroup row>
             <Label for="name" sm={1}>
@@ -63,7 +68,7 @@ const DictionaryAddPage = () => {
             Add
           </StyledAddButton>
         ) : null}
-      </div>
+      </ContentWrapper>
     </ComponentWrapper>
   );
 };

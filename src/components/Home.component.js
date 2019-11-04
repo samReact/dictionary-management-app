@@ -26,7 +26,6 @@ const Home = () => {
     <div>
       <StyledNavBar fixed="top">
         <ToastContainer />
-
         <NavbarBrand className="mr-auto">
           <img src={Logo} alt="logo" />
         </NavbarBrand>

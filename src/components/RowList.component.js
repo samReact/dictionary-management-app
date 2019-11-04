@@ -7,9 +7,7 @@ import { ScrollWrapper, IconWarning } from '../styled/style';
 
 const RowList = () => {
   const rows = useSelector(state => state.rowsReducer.rows);
-
   const dispatch = useDispatch();
-
   const handleDelete = async row => {
     let payload;
     const duplicate = await rows.filter(

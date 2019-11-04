@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 import { DELETE_DICTIONARY } from '../actions/types/dictionaries.action.type';
 import { notify } from '../utils';
-import { IconWarning } from '../styled/style';
+import { IconWarning, ColWarning } from '../styled/style';
 
 const DictionaryRow = ({ dictionary }) => {
   const hasDuplicate = dictionary.rows.filter(row => row.hasDuplicate);
@@ -25,9 +25,7 @@ const DictionaryRow = ({ dictionary }) => {
       <Col xs="4">
         <h6>{dictionary.rows.length}</h6>
       </Col>
-      <Col xs="1" style={{ display: 'flex', alignItems: 'center' }}>
-        {hasDuplicate.length ? <IconWarning /> : null}
-      </Col>
+      <ColWarning xs="1">{hasDuplicate.length ? <IconWarning /> : null}</ColWarning>
       <Col xs={{ size: 1 }}>
         <Button
           onClick={() =>

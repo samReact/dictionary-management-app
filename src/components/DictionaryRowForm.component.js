@@ -8,7 +8,7 @@ import {
   DELETE_DICTIONARY_ROW,
   UPDATE_DICTIONARY_ROW,
 } from '../actions/types/dictionaries.action.type';
-import { IconWarning } from '../styled/style';
+import { IconWarning, ColWarning } from '../styled/style';
 import { notify } from '../utils';
 
 const DictionaryRowForm = ({ dictionary, row }) => {
@@ -34,7 +34,6 @@ const DictionaryRowForm = ({ dictionary, row }) => {
     duplicate = await dictionary.rows.filter(
       row => row.domain === updatedRow.domain && row.id !== updatedRow.id
     );
-
     if (cycle.length) {
       notify('error', 'Chain or cycle !');
       return setErrorDomain(true);
@@ -44,7 +43,6 @@ const DictionaryRowForm = ({ dictionary, row }) => {
       notify('warning', 'Duplicate domain !');
     }
     let row = { ...updatedRow, ...hasDuplicate };
-
     return handleSaveRow(row);
   };
 
@@ -113,9 +111,7 @@ const DictionaryRowForm = ({ dictionary, row }) => {
             onChange={e => setRow({ ...updatedRow, range: e.target.value, id: row.id })}
           />
         </Col>
-        <Col sm={1} style={{ display: 'flex', alignItems: 'center' }}>
-          {row.hasDuplicate && <IconWarning />}
-        </Col>
+        <ColWarning>{row.hasDuplicate && <IconWarning />}</ColWarning>
         <Col sm={{ size: 1, offset: 1 }}>
           <Button
             className="mr-sm-2"

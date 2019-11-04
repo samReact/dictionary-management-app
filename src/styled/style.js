@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { MdAdd, MdList, MdWarning } from 'react-icons/md';
-import { Button, Navbar } from 'reactstrap';
+import { Button, Navbar, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 const theme = {
@@ -19,6 +19,7 @@ const mdWarning = props => <MdWarning className={props.className} />;
 const button = props => <Button className={props.className} {...props} />;
 const navBar = props => <Navbar className={props.className} {...props} />;
 const link = props => <Link className={props.className} {...props} />;
+const col = props => <Col className={props.className} {...props} />;
 
 export const IconAdd = styled(mdAdd)`
   height: 30px;
@@ -90,7 +91,10 @@ export const StyledAddButton = styled(button)`
 `;
 
 export const ComponentWrapper = styled.div`
-  margin-top: 10%;
+  margin-top: 10vh;
+`;
+export const ContentWrapper = styled.div`
+  margin-top: 20vh;
 `;
 
 export const ScrollWrapper = styled.div`
@@ -126,4 +130,9 @@ export const NameWrapper = styled.div`
   border: 1px solid lightgrey;
   align-items: center;
   display: flex;
+`;
+
+export const ColWarning = styled(col)`
+  display: flex;
+  align-items: center;
 `;
