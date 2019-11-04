@@ -2,14 +2,24 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Row, Col } from 'reactstrap';
 import { MdDeleteForever } from 'react-icons/md';
-import { DELETE_ROW } from '../actions/types/rows.action.type';
-import { ScrollWrapper } from '../styled/style';
+import { DELETE_ROW, DELETE_ROW_WARNING } from '../actions/types/rows.action.type';
+import { ScrollWrapper, IconWarning } from '../styled/style';
 
 const RowList = () => {
   const rows = useSelector(state => state.rowsReducer.rows);
+
   const dispatch = useDispatch();
-  const handleRemove = id => {
-    const payload = { id };
+
+  const handleDelete = async row => {
+    let payload;
+    const duplicate = await rows.filter(
+      elt => elt.domain === row.domain && elt.hasDuplicate
+    );
+    if (duplicate.length) {
+      payload = { id: duplicate[0].id, hasDuplicate: false };
+      await dispatch({ payload, type: DELETE_ROW_WARNING });
+    }
+    payload = { id: row.id };
     dispatch({ payload, type: DELETE_ROW });
   };
 
@@ -32,8 +42,11 @@ const RowList = () => {
             <Col xs="5">
               <h6>{row.range}</h6>
             </Col>
-            <Col xs="2">
-              <Button outline color="danger" onClick={() => handleRemove(row.id)}>
+            <Col xs="1" style={{ display: 'flex', alignItems: 'center' }}>
+              {row.hasDuplicate && <IconWarning />}
+            </Col>
+            <Col xs="1">
+              <Button outline color="danger" onClick={() => handleDelete(row)}>
                 <MdDeleteForever />
               </Button>
             </Col>

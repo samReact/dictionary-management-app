@@ -3,6 +3,7 @@ import {
   DELETE_ROW,
   CLEAR_ROWS,
   INCREMENT_ID,
+  DELETE_ROW_WARNING,
 } from '../actions/types/rows.action.type';
 
 const initialState = {
@@ -33,6 +34,16 @@ const rowsReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         id: payload.id,
+      };
+    case DELETE_ROW_WARNING:
+      const row = state.rows.filter(el => el.id === payload.id);
+      const updatedRow = { ...row[0], ...payload };
+      const filteredRows = state.rows.filter(el => el.id !== payload.id);
+
+      console.log(updatedRow);
+      return {
+        ...state,
+        rows: [...filteredRows, updatedRow],
       };
     default:
       return state;

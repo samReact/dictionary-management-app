@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MdAdd, MdList } from 'react-icons/md';
+import { MdAdd, MdList, MdWarning } from 'react-icons/md';
 import { Button, Navbar } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
@@ -10,10 +10,12 @@ const theme = {
   secondary: '#f2f6fa',
   white: '#fff',
   textSecondary: '#002e67',
+  warning: '#fd7e14',
 };
 
 const mdAdd = props => <MdAdd className={props.className} />;
 const mdList = props => <MdList className={props.className} />;
+const mdWarning = props => <MdWarning className={props.className} />;
 const button = props => <Button className={props.className} {...props} />;
 const navBar = props => <Navbar className={props.className} {...props} />;
 const link = props => <Link className={props.className} {...props} />;
@@ -26,6 +28,10 @@ export const IconAdd = styled(mdAdd)`
 export const IconList = styled(mdList)`
   height: 30px;
   width: 30px;
+`;
+
+export const IconWarning = styled(mdWarning)`
+  color: ${theme.warning};
 `;
 
 export const StyledLink = styled(link)`

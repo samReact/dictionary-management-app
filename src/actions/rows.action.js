@@ -1,4 +1,10 @@
-import { ADD_ROW, DELETE_ROW, CLEAR_ROWS, INCREMENT_ID } from './types/rows.action.type';
+import {
+  ADD_ROW,
+  DELETE_ROW,
+  CLEAR_ROWS,
+  INCREMENT_ID,
+  DELETE_ROW_WARNING,
+} from './types/rows.action.type';
 
 export const addRow = payload => ({
   payload,
@@ -17,4 +23,9 @@ export const clearRows = () => ({
 export const incrementId = payload => ({
   payload,
   type: INCREMENT_ID,
+});
+
+export const deleteRowWarning = payload => ({
+  payload,
+  type: DELETE_ROW_WARNING,
 });

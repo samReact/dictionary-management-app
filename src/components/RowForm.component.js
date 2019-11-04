@@ -3,6 +3,7 @@ import { Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import { MdAdd } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import validator from 'validator';
 
 import { ADD_ROW, CLEAR_ROWS } from '../actions/types/rows.action.type';
 import RowList from './RowList.component';
@@ -18,6 +19,9 @@ const AddDictionaryForm = () => {
   const [domain, setDomain] = useState('');
   const [range, setRange] = useState('');
   const [name, setName] = useState('');
+  const [errorDomain, setErrorDomain] = useState(false);
+  const [errorRange, setErrorRange] = useState(false);
+
   let history = useHistory();
 
   const dispatch = useDispatch();
@@ -34,8 +38,25 @@ const AddDictionaryForm = () => {
   };
 
   const handleAddRow = async () => {
+    let hasDuplicate = { hasDuplicate: false };
+    validator.trim(domain);
+    validator.trim(range);
+    if (validator.isEmpty(domain) || validator.isEmpty(range)) {
+      setErrorDomain(validator.isEmpty(domain));
+      return setErrorRange(validator.isEmpty(range));
+    }
+    const cycle = await rows.filter(row => row.range === domain);
+    const duplicate = await rows.filter(row => row.domain === domain);
+    if (cycle.length) {
+      return setErrorDomain(true);
+    }
+
+    if (duplicate.length) {
+      hasDuplicate = { hasDuplicate: true };
+    }
+
     const newId = rowId + 1;
-    const payload = { id: newId, domain, range };
+    const payload = { id: newId, domain, range, ...hasDuplicate };
     await dispatch({ payload, type: ADD_ROW });
     setDomain('');
     setRange('');
@@ -78,6 +99,8 @@ const AddDictionaryForm = () => {
             </Label>
             <Col sm={4}>
               <Input
+                onFocus={() => setErrorDomain(false)}
+                invalid={errorDomain}
                 value={domain}
                 type="text"
                 name="domain"
@@ -90,6 +113,8 @@ const AddDictionaryForm = () => {
             </Label>
             <Col sm={4}>
               <Input
+                onFocus={() => setErrorRange(false)}
+                invalid={errorRange}
                 type="text"
                 value={range}
                 name="range"
