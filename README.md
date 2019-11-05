@@ -1,3 +1,5 @@
+## Dictionary management App using React / Redux / Hooks / Persist store
+
 ### Running the project on dev mode
 
 1. Clone the repository
