@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import validator from 'validator';
 
 import { notify } from '../utils';
 import { CLEAR_ROWS } from '../actions/types/rows.action.type';
@@ -63,7 +64,9 @@ const DictionaryAddPage = () => {
           </FormGroup>
         </Form>
         <RowForm />
-        {name.length && rows.length ? (
+        {name.length &&
+        rows.length &&
+        !validator.isEmpty(name, { ignore_whitespace: true }) ? (
           <StyledAddButton size="lg" onClick={() => handleAddDictionary()}>
             Add
           </StyledAddButton>

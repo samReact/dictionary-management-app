@@ -25,9 +25,12 @@ const RowForm = ({ dictionary, dictionaryId }) => {
     let hasDuplicate = { hasDuplicate: false };
     validator.trim(domain);
     validator.trim(range);
-    if (validator.isEmpty(domain) || validator.isEmpty(range)) {
-      setErrorDomain(validator.isEmpty(domain));
-      return setErrorRange(validator.isEmpty(range));
+    if (
+      validator.isEmpty(domain, { ignore_whitespace: true }) ||
+      validator.isEmpty(range, { ignore_whitespace: true })
+    ) {
+      setErrorDomain(validator.isEmpty(domain, { ignore_whitespace: true }));
+      return setErrorRange(validator.isEmpty(range, { ignore_whitespace: true }));
     }
     if (dictionary) {
       cycle = await dictionary.rows.filter(row => row.range === domain);
