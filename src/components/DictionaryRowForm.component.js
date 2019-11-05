@@ -24,9 +24,14 @@ const DictionaryRowForm = ({ dictionary, row }) => {
     let hasDuplicate = { hasDuplicate: false };
     validator.trim(updatedRow.domain);
     validator.trim(updatedRow.range);
-    if (validator.isEmpty(updatedRow.domain) || validator.isEmpty(updatedRow.range)) {
-      setErrorDomain(validator.isEmpty(updatedRow.domain));
-      return setErrorRange(validator.isEmpty(updatedRow.range));
+    if (
+      validator.isEmpty(updatedRow.domain, { ignore_whitespace: true }) ||
+      validator.isEmpty(updatedRow.range, { ignore_whitespace: true })
+    ) {
+      setErrorDomain(validator.isEmpty(updatedRow.domain, { ignore_whitespace: true }));
+      return setErrorRange(
+        validator.isEmpty(updatedRow.range, { ignore_whitespace: true })
+      );
     }
     cycle = await dictionary.rows.filter(
       row => row.range === updatedRow.domain && row.id !== updatedRow.id
