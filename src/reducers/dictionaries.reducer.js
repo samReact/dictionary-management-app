@@ -14,6 +14,7 @@ const initialState = {
 let filteredRows;
 let filteredDictionaries;
 let dictionary;
+let updatedRows;
 
 let findDictionary = (state, payload) =>
   state.dictionaries.filter(el => el.id === payload.dictionaryId);
@@ -34,29 +35,29 @@ const dictionariesReducer = (state = initialState, { type, payload }) => {
     case DELETE_DICTIONARY_ROW:
       dictionary = findDictionary(state, payload);
       filteredRows = dictionary[0].rows.filter(el => el.id !== payload.rowId);
+      dictionary = { ...dictionary[0], rows: filteredRows };
       filteredDictionaries = state.dictionaries.filter(
         el => el.id !== payload.dictionaryId
       );
-      dictionary = { ...dictionary[0], rows: filteredRows };
       return {
         ...state,
         dictionaries: [...filteredDictionaries, dictionary],
       };
     case ADD_DICTIONARY_ROW:
       dictionary = findDictionary(state, payload);
-      const rows = [...dictionary[0].rows, payload.row];
-      const newDictionaries = state.dictionaries.filter(
+      updatedRows = [...dictionary[0].rows, payload.row];
+      dictionary = { ...dictionary[0], rows: updatedRows };
+      filteredDictionaries = state.dictionaries.filter(
         el => el.id !== payload.dictionaryId
       );
-      dictionary = { ...dictionary[0], rows };
       return {
         ...state,
-        dictionaries: [...newDictionaries, dictionary],
+        dictionaries: [...filteredDictionaries, dictionary],
       };
     case UPDATE_DICTIONARY_ROW:
       dictionary = findDictionary(state, payload);
       filteredRows = dictionary[0].rows.filter(el => el.id !== payload.row.id);
-      let updatedRows = [...filteredRows, payload.row];
+      updatedRows = [...filteredRows, payload.row];
       dictionary = { ...dictionary[0], rows: updatedRows };
       filteredDictionaries = state.dictionaries.filter(
         el => el.id !== payload.dictionaryId
