@@ -4,9 +4,12 @@ import { Row, Col } from 'reactstrap';
 
 import { ComponentWrapper } from '../styled/style';
 import DictionaryRow from './DictionaryRow.component';
+import { AppState } from '../reducers/rootReducers';
 
 const DictionaryAllPage = () => {
-  const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
+  const dictionaries = useSelector(
+    (state: AppState) => state.dictionariesReducer.dictionaries
+  );
 
   return (
     <ComponentWrapper>

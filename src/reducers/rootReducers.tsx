@@ -7,4 +7,5 @@ const rootReducer = combineReducers({
   rowsReducer,
 });
 
+export type AppState = ReturnType<typeof rootReducer>;
 export default rootReducer;

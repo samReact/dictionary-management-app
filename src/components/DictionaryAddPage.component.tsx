@@ -15,6 +15,7 @@ import {
   ContentWrapper,
 } from '../styled/style';
 import RowForm from './RowForm.component';
+import { AppState } from '../reducers/rootReducers';
 
 const DictionaryAddPage = () => {
   const [name, setName] = useState('');
@@ -22,14 +23,14 @@ const DictionaryAddPage = () => {
   let history = useHistory();
 
   const dispatch = useDispatch();
-  const dictionaryId = useSelector(state => state.dictionariesReducer.id);
-  const rows = useSelector(state => state.rowsReducer.rows);
+  const dictionaryId = useSelector((state: AppState) => state.dictionariesReducer.id);
+  const rows = useSelector((state: AppState) => state.rowsReducer.rows);
 
-  const handleAddDictionary = async () => {
+  const handleAddDictionary = () => {
     const newId = dictionaryId + 1;
     const payload = { id: newId, name, rows };
-    await dispatch({ payload, type: ADD_DICTIONARY });
-    await dispatch({ type: CLEAR_ROWS });
+    dispatch({ payload, type: ADD_DICTIONARY });
+    dispatch({ type: CLEAR_ROWS });
     history.push('/');
     notify('success', 'Dictionary added !');
   };

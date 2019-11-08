@@ -7,11 +7,18 @@ import validator from 'validator';
 import {
   DELETE_DICTIONARY_ROW,
   UPDATE_DICTIONARY_ROW,
+  Dictionary,
 } from '../actions/types/dictionaries.action.type';
 import { IconWarning, ColWarning } from '../styled/style';
 import { notify } from '../utils';
+import { Row } from '../actions/types/rows.action.type';
 
-const DictionaryRowForm = ({ dictionary, row }) => {
+interface DictionaryRowFormProps {
+  dictionary: Dictionary;
+  row: Row;
+}
+
+const DictionaryRowForm = ({ dictionary, row }: DictionaryRowFormProps) => {
   const [errorDomain, setErrorDomain] = useState(false);
   const [errorRange, setErrorRange] = useState(false);
   const [activeId, setActiveId] = useState(null);
@@ -19,7 +26,7 @@ const DictionaryRowForm = ({ dictionary, row }) => {
 
   const dispatch = useDispatch();
 
-  const handleRowValidation = async () => {
+  const handleRowValidation = () => {
     let cycle, duplicate;
     let hasDuplicate = { hasDuplicate: false };
     validator.trim(updatedRow.domain);
@@ -33,10 +40,10 @@ const DictionaryRowForm = ({ dictionary, row }) => {
         validator.isEmpty(updatedRow.range, { ignore_whitespace: true })
       );
     }
-    cycle = await dictionary.rows.filter(
+    cycle = dictionary.rows.filter(
       row => row.range === updatedRow.domain && row.id !== updatedRow.id
     );
-    duplicate = await dictionary.rows.filter(
+    duplicate = dictionary.rows.filter(
       row => row.domain === updatedRow.domain && row.id !== updatedRow.id
     );
     if (cycle.length) {
@@ -51,9 +58,9 @@ const DictionaryRowForm = ({ dictionary, row }) => {
     return handleSaveRow(row);
   };
 
-  const handleDeleteRow = async row => {
+  const handleDeleteRow = (row: Row) => {
     let payload;
-    const duplicate = await dictionary.rows.filter(
+    const duplicate = dictionary.rows.filter(
       elt => elt.domain === row.domain && elt.hasDuplicate
     );
     if (duplicate.length) {
@@ -64,19 +71,19 @@ const DictionaryRowForm = ({ dictionary, row }) => {
           hasDuplicate: false,
         },
       };
-      await dispatch({ payload, type: UPDATE_DICTIONARY_ROW });
+      dispatch({ payload, type: UPDATE_DICTIONARY_ROW });
     }
     payload = { dictionaryId: dictionary.id, rowId: row.id };
     dispatch({ payload, type: DELETE_DICTIONARY_ROW });
     notify('success', 'Row removed !');
   };
 
-  const handleEditRow = row => {
+  const handleEditRow = (row: Row) => {
     setActiveId(row.id);
     setRow({ ...row });
   };
 
-  const handleSaveRow = row => {
+  const handleSaveRow = (row: Row) => {
     let payload;
     payload = { dictionaryId: dictionary.id, row };
     dispatch({ payload, type: UPDATE_DICTIONARY_ROW });

@@ -5,12 +5,16 @@ import { useSelector } from 'react-redux';
 import RowForm from './RowForm.component';
 import DictionaryRowForm from './DictionaryRowForm.component';
 import { ContentWrapper } from '../styled/style';
+import { AppState } from '../reducers/rootReducers';
+import { Dictionary } from '../actions/types/dictionaries.action.type';
 
 const DictionaryEditPagePage = () => {
   let location = useLocation();
   const { id } = location.state;
-  const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
-  let dictionary = dictionaries.filter(elt => elt.id === id)[0] || [];
+  const dictionaries = useSelector(
+    (state: AppState) => state.dictionariesReducer.dictionaries
+  );
+  let dictionary: Dictionary = dictionaries.filter(elt => elt.id === id)[0];
 
   return (
     <ContentWrapper>
@@ -18,7 +22,7 @@ const DictionaryEditPagePage = () => {
         <DictionaryRowForm key={row.id} dictionary={dictionary} row={row} />
       ))}
       <ContentWrapper>
-        <RowForm dictionary={dictionary} dictionaryId={id} />
+        <RowForm dictionary={dictionary} />
       </ContentWrapper>
     </ContentWrapper>
   );

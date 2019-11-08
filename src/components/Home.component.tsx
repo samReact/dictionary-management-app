@@ -18,9 +18,12 @@ import {
   VCenteredWrapper,
   VHCenteredWrapper,
 } from '../styled/style';
+import { AppState } from '../reducers/rootReducers';
 
 const Home = () => {
-  const dictionaries = useSelector(state => state.dictionariesReducer.dictionaries);
+  const dictionaries = useSelector(
+    (state: AppState) => state.dictionariesReducer.dictionaries
+  );
 
   return (
     <div>

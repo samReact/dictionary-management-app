@@ -3,6 +3,7 @@ import { Table, Row, Col } from 'reactstrap';
 import { useLocation } from 'react-router-dom';
 import { ComponentWrapper } from '../styled/style';
 import { IconWarning } from '../styled/style';
+import { Row as RowType } from '../actions/types/rows.action.type';
 
 const DictionaryPage = () => {
   let location = useLocation();
@@ -24,7 +25,7 @@ const DictionaryPage = () => {
               </tr>
             </thead>
             <tbody>
-              {rows.map(row => (
+              {rows.map((row: RowType) => (
                 <tr key={row.id}>
                   <td>{row.hasDuplicate && <IconWarning />}</td>
                   <td>{row.domain}</td>

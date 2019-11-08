@@ -6,19 +6,19 @@ import { DELETE_ROW, DELETE_ROW_WARNING } from '../actions/types/rows.action.typ
 import { ScrollWrapper, IconWarning } from '../styled/style';
 
 import { notify } from '../utils';
+import { AppState } from '../reducers/rootReducers';
+import { Row as RowType } from '../actions/types/rows.action.type';
 
 const RowList = () => {
-  const rows = useSelector(state => state.rowsReducer.rows);
+  const rows = useSelector((state: AppState) => state.rowsReducer.rows);
   const dispatch = useDispatch();
 
-  const handleDelete = async row => {
+  const handleDelete = (row: RowType) => {
     let payload;
-    const duplicate = await rows.filter(
-      elt => elt.domain === row.domain && elt.hasDuplicate
-    );
+    const duplicate = rows.filter(elt => elt.domain === row.domain && elt.hasDuplicate);
     if (duplicate.length) {
       payload = { id: duplicate[0].id, hasDuplicate: false };
-      await dispatch({ payload, type: DELETE_ROW_WARNING });
+      dispatch({ payload, type: DELETE_ROW_WARNING });
     }
     payload = { id: row.id };
     dispatch({ payload, type: DELETE_ROW });

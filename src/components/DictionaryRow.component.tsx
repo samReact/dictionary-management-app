@@ -4,15 +4,19 @@ import { Button, Row, Col } from 'reactstrap';
 import { MdDeleteForever, MdEdit, MdRemoveRedEye } from 'react-icons/md';
 import { useHistory } from 'react-router-dom';
 
-import { DELETE_DICTIONARY } from '../actions/types/dictionaries.action.type';
+import { DELETE_DICTIONARY, Dictionary } from '../actions/types/dictionaries.action.type';
 import { notify } from '../utils';
 import { IconWarning, ColWarning } from '../styled/style';
 
-const DictionaryRow = ({ dictionary }) => {
+interface DictionaryRowProps {
+  dictionary: Dictionary;
+}
+
+const DictionaryRow = ({ dictionary }: DictionaryRowProps) => {
   const hasDuplicate = dictionary.rows.filter(row => row.hasDuplicate);
   const dispatch = useDispatch();
   let history = useHistory();
-  const handleRemove = id => {
+  const handleRemove = (id: number) => {
     const payload = { id };
     dispatch({ payload, type: DELETE_DICTIONARY });
     notify('success', 'Dictionary deleted !');
